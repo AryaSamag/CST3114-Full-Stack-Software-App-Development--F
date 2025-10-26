@@ -160,3 +160,165 @@
         </div>
     </div>
 
+    <script>
+        const { createApp } = Vue;
+        createApp({
+            data() {
+                return {
+                    lessons: [
+                        {
+                            id: 1,
+                            subject: 'Mathematics',
+                            location: 'Dubai',
+                            price: 100,
+                            spaces: 5,
+                            icon: 'fas fa-calculator'
+                        },
+                        {
+                            id: 2,
+                            subject: 'English',
+                            location: 'Abu Dhabi',
+                            price: 80,
+                            spaces: 5,
+                            icon: 'fas fa-book'
+                        },
+                        {
+                            id: 3,
+                            subject: 'Science',
+                            location: 'Sharjah',
+                            price: 90,
+                            spaces: 5,
+                            icon: 'fas fa-flask'
+                        },
+                        {
+                            id: 4,
+                            subject: 'History',
+                            location: 'Al Ain',
+                            price: 95,
+                            spaces: 5,
+                            icon: 'fas fa-landmark'
+                        },
+                        {
+                            id: 5,
+                            subject: 'Geography',
+                            location: 'Dubai',
+                            price: 85,
+                            spaces: 5,
+                            icon: 'fas fa-globe'
+                        },
+                        {
+                            id: 6,
+                            subject: 'Physics',
+                            location: 'Abu Dhabi',
+                            price: 110,
+                            spaces: 5,
+                            icon: 'fas fa-atom'
+                        },
+                        {
+                            id: 7,
+                            subject: 'Chemistry',
+                            location: 'Sharjah',
+                            price: 105,
+                            spaces: 5,
+                            icon: 'fas fa-vial'
+                        },
+                        {
+                            id: 8,
+                            subject: 'Biology',
+                            location: 'Al Ain',
+                            price: 95,
+                            spaces: 5,
+                            icon: 'fas fa-dna'
+                        },
+                        {
+                            id: 9,
+                            subject: 'Computer Science',
+                            location: 'Dubai',
+                            price: 120,
+                            spaces: 5,
+                            icon: 'fas fa-laptop-code'
+                        },
+                        {
+                            id: 10,
+                            subject: 'Art',
+                            location: 'Abu Dhabi',
+                            price: 75,
+                            spaces: 5,
+                            icon: 'fas fa-palette'
+                        }
+                    ],
+                    cart: [],
+                    showCart: false,
+                    sortBy: 'subject',
+                    sortOrder: 'asc',
+                    searchQuery: '',
+                    filteredLessons: [],
+                    checkoutForm: {
+                        firstName: '',
+                        lastName: '',
+                        address: '',
+                        city: '',
+                        state: '',
+                        zip: '',
+                        method: 'home',
+                        sendGift: false,
+                        giftPhone: '',
+                        phone: '',
+                        firstNameError: '',
+                        lastNameError: '',
+                        phoneError: '',
+                        giftPhoneError: ''
+                    },
+                    orderSubmitted: false
+                };
+            },
+            computed: {
+                sortedLessons() {
+                    let lessons = this.searchQuery ? this.filteredLessons : this.lessons;
+
+                    return [...lessons].sort((a, b) => {
+                        let aVal = a[this.sortBy];
+                        let bVal = b[this.sortBy];
+
+                        // Convert to numbers for numeric comparison
+                        if (this.sortBy === 'price' || this.sortBy === 'spaces') {
+                            aVal = Number(aVal);
+                            bVal = Number(bVal);
+                        } else {
+                            // Convert to lowercase for string comparison
+                            aVal = String(aVal).toLowerCase();
+                            bVal = String(bVal).toLowerCase();
+                        }
+
+                        if (this.sortOrder === 'asc') {
+                            return aVal > bVal ? 1 : -1;
+                        } else {
+                            return aVal < bVal ? 1 : -1;
+                        }
+                    });
+                },
+                 cartItemCount() {
+                    return this.cart.reduce((total, item) => total + item.quantity, 0);
+                },
+                totalPrice() {
+                    return this.cart.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
+                },
+                isFormValid() {
+                    // Basic required checks: first & last name and buyer phone.
+                    const baseValid = this.checkoutForm.firstName &&
+                                      this.checkoutForm.lastName &&
+                                      this.checkoutForm.phone &&
+                                      !this.checkoutForm.firstNameError &&
+                                      !this.checkoutForm.lastNameError &&
+                                      !this.checkoutForm.phoneError;
+
+                    // If sending as gift, require gift phone and no error
+                    if (this.checkoutForm.sendGift) {
+                        return baseValid && this.checkoutForm.giftPhone && !this.checkoutForm.giftPhoneError;
+                    }
+
+                    return baseValid;
+                }
+            },
+        },      
+
