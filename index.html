@@ -320,5 +320,79 @@
                     return baseValid;
                 }
             },
-        },      
+        },  
+        methods : {
+                addToCart(lesson) {
+                    if (lesson.spaces > 0) {
+                        // Check if lesson already in cart
+                        const existingItem = this.cart.find(item => item.id === lesson.id);
+
+                        if (existingItem) {
+                            existingItem.quantity++;
+                        } else {
+                            this.cart.push({
+                                id: lesson.id,
+                                subject: lesson.subject,
+                                location: lesson.location,
+                                price: lesson.price,
+                                quantity: 1
+                            });
+                        }
+
+                        // Decrease available spaces
+                        lesson.spaces--;
+                    }
+                },
+                removeFromCart(item) {
+                    const cartIndex = this.cart.findIndex(i => i.id === item.id);
+                    if (cartIndex !== -1) {
+                        // Return spaces to lesson
+                        const lesson = this.lessons.find(l => l.id === item.id);
+                        if (lesson) {
+                            lesson.spaces += item.quantity;
+                        }
+
+                        // Remove from cart
+                        this.cart.splice(cartIndex, 1);
+                    }
+                },
+                 toggleCart() {
+                    this.showCart = !this.showCart;
+                    this.orderSubmitted = false;
+                },
+                validateForm() {
+                    // Validate first name and last name (letters only, including spaces)
+                    const nameRegex = /^[a-zA-Z\s]+$/;
+                    if (this.checkoutForm.firstName && !nameRegex.test(this.checkoutForm.firstName)) {
+                        this.checkoutForm.firstNameError = 'First name must contain letters only';
+                    } else {
+                        this.checkoutForm.firstNameError = '';
+                    }
+
+                    if (this.checkoutForm.lastName && !nameRegex.test(this.checkoutForm.lastName)) {
+                        this.checkoutForm.lastNameError = 'Last name must contain letters only';
+                    } else {
+                        this.checkoutForm.lastNameError = '';
+                    }
+
+                    // Validate buyer phone (numbers only)
+                    const phoneRegex = /^[0-9]+$/;
+                    if (this.checkoutForm.phone && !phoneRegex.test(this.checkoutForm.phone)) {
+                        this.checkoutForm.phoneError = 'Phone must contain numbers only';
+                    } else {
+                        this.checkoutForm.phoneError = '';
+                    }
+
+                    // If sendGift is checked, validate giftPhone
+                    if (this.checkoutForm.sendGift) {
+                        if (this.checkoutForm.giftPhone && !phoneRegex.test(this.checkoutForm.giftPhone)) {
+                            this.checkoutForm.giftPhoneError = 'Gift phone must contain numbers only';
+                        } else {
+                            this.checkoutForm.giftPhoneError = '';
+                        }
+                    } else {
+                        this.checkoutForm.giftPhoneError = '';
+                    }
+                },
+
 
