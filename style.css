@@ -136,14 +136,15 @@ body {
 
 /* Controls Row - Search and Sort */
 .controls-row {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
     display: flex;
+    gap: 20px;
+    align-items: center;
     flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    padding: 1.5rem;
-    background-color: white;
-    border-radius: 0.5rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .control-item {
@@ -154,6 +155,17 @@ body {
 .search-control {
     flex: 2;
     min-width: 250px;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.control-group label {
+    font-weight: 600;
+    color: #333;
 }
 
 /* Input Group for Search */
@@ -205,13 +217,23 @@ body {
 }
 
 select.form-control {
+    padding: 10px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
     cursor: pointer;
+    transition: all 0.3s;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 0.75rem center;
     background-size: 16px 12px;
     padding-right: 2.5rem;
     appearance: none;
+}
+
+select.form-control:focus {
+    outline: none;
+    border-color: #667eea;
 }
 
 /* Results Info */
@@ -236,136 +258,76 @@ select.form-control {
 /* Lessons Grid */
 .lessons-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
 }
 
 /* Lesson Card */
 .lesson-card {
-    background-color: white;
-    border-radius: 0.5rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    overflow: hidden;
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    transition: all 0.3s;
     display: flex;
     flex-direction: column;
 }
 
 .lesson-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
-.lesson-card-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 1.5rem;
-    text-align: center;
+.lesson-icon {
+    font-size: 3em;
+    color: #667eea;
+    margin-bottom: 15px;
 }
 
-.lesson-card-header i {
-    font-size: 3rem;
-    margin-bottom: 0.5rem;
-    opacity: 0.9;
-}
-
-.lesson-card-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin: 0;
-}
-
-.lesson-card-body {
-    padding: 1.5rem;
-    flex: 1;
+.lesson-card h3 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.5em;
 }
 
 .lesson-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+    color: #666;
+    margin-bottom: 10px;
 }
 
-.lesson-info-item {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: #495057;
-}
-
-.lesson-info-item i {
-    color: #0d6efd;
+.lesson-info i {
+    color: #667eea;
     width: 20px;
-    text-align: center;
 }
 
-.lesson-info-label {
-    font-weight: 600;
-    min-width: 80px;
+.price {
+    font-size: 1.4em;
+    color: #764ba2;
+    font-weight: bold;
+    margin: 15px 0;
 }
 
-.lesson-price {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #28a745;
-    margin: 1rem 0;
-}
-
-.lesson-spaces {
-    padding: 0.5rem;
-    background-color: #f8f9fa;
-    border-radius: 0.25rem;
-    text-align: center;
-    font-weight: 600;
-}
-
-.lesson-spaces.low-stock {
-    background-color: #fff3cd;
-    color: #856404;
-}
-
-.lesson-spaces.out-of-stock {
-    background-color: #f8d7da;
-    color: #721c24;
-}
-
-.lesson-card-footer {
-    padding: 1rem 1.5rem;
-    border-top: 1px solid #e9ecef;
-}
-
-.btn-primary {
-    background-color: #0d6efd;
-    color: white;
-    border-color: #0d6efd;
+.add-btn {
     width: 100%;
-    justify-content: center;
+    padding: 12px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 600;
 }
 
-.btn-primary:hover {
-    background-color: #0b5ed7;
-    border-color: #0a58ca;
+.add-btn:hover:not(:disabled) {
+    background: #5568d3;
 }
 
-.btn-primary:disabled {
-    background-color: #6c757d;
-    border-color: #6c757d;
+.add-btn:disabled {
+    background: #ccc;
     cursor: not-allowed;
-    opacity: 0.65;
-}
-
-.btn-secondary {
-    background-color: #6c757d;
-    color: white;
-    border-color: #6c757d;
-    width: 100%;
-    justify-content: center;
-}
-
-.btn-secondary:hover {
-    background-color: #5a6268;
-    border-color: #545b62;
 }
 
 /* Empty State */
