@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CST3144 Lesson Booking System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <i class="fas fa-graduation-cap"></i>
+                    Lesson Booking System
+                </a>
+                <div class="navbar-nav">
+                    <button class="btn btn-outline" onclick="showLessons()">
+                        <i class="fas fa-list"></i>
+                        Lessons
+                    </button>
+                    <button class="btn btn-outline cart-btn" onclick="showCart()">
+                        <i class="fas fa-shopping-cart"></i>
+                        Cart
+                        <span id="cart-badge" class="badge" style="display: none;">0</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+       
+
