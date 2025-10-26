@@ -29,5 +29,34 @@
                 </div>
             </div>
         </nav>
+        <!-- Lessons Page -->
+        <div id="lessons-page" class="container page-container">
+            <!-- Search and Sort Controls -->
+            <div class="controls-row">
+                <div class="control-item search-control">
+                    <div class="input-group">
+                        <span class="input-group-icon"><i class="fas fa-search"></i></span>
+                        <input type="text" id="search-input" class="form-control" placeholder="Search lessons..." oninput="performSearch()">
+                    </div>
+                </div>
+                <div class="control-item">
+                    <select id="sort-by" class="form-control" onchange="sortLessons()">
+                        <option value="subject">Sort by Subject</option>
+                        <option value="location">Sort by Location</option>
+                        <option value="price">Sort by Price</option>
+                        <option value="spaces">Sort by Availability</option>
+                    </select>
+                </div>
+                <div class="control-item">
+                    <select id="sort-order" class="form-control" onchange="sortLessons()">
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
+                    </select>
+                </div>
+                <div class="control-item results-info">
+                    <i class="fas fa-info-circle"></i>
+                    <span id="results-count">0</span> lessons found
+                </div>
+            </div>
        
 
