@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CST3144 Lesson Booking System</title>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -40,19 +40,17 @@
                         <input type="text" v-model="searchQuery" class="form-control" placeholder="Search lessons..." @input="performSearch()">
                     </div>
                 </div>
-                <div class="control-item">
-                    <select v-model="sortBy" class="form-control">
-                        <option value="subject">Sort by Subject</option>
-                        <option value="location">Sort by Location</option>
-                        <option value="price">Sort by Price</option>
-                        <option value="spaces">Sort by Availability</option>
-                    </select>
+                <div class="control-item sort-by-control">
+                    <div class="radio-group">
+                        <label class="radio-label"><input type="radio" v-model="sortBy" value="subject" name="sortBy"> Subject</label>
+                        <label class="radio-label"><input type="radio" v-model="sortBy" value="location" name="sortBy"> Location</label>
+                        <label class="radio-label"><input type="radio" v-model="sortBy" value="price" name="sortBy"> Price</label>
+                        <label class="radio-label"><input type="radio" v-model="sortBy" value="spaces" name="sortBy"> Availability</label>
+                    </div>
                 </div>
-                <div class="control-item">
-                    <select v-model="sortOrder" class="form-control">
-                        <option value="asc">Ascending</option>
-                        <option value="desc">Descending</option>
-                    </select>
+                <div class="control-item sort-order-control">
+                    <label class="radio-label"><input type="radio" v-model="sortOrder" value="asc" name="sortOrder"> Ascending</label>
+                    <label class="radio-label"><input type="radio" v-model="sortOrder" value="desc" name="sortOrder"> Descending</label>
                 </div>
                 <div class="control-item results-info">
                     <i class="fas fa-info-circle"></i>
@@ -229,8 +227,7 @@
     </div>
 
     <script>
-        const { createApp } = Vue;
-        createApp({
+        new Vue({
             data() {
                 return {
                     lessons: [
@@ -506,7 +503,7 @@
                     });
                 }
             }
-        }).mount('#app');
+        }).$mount('#app');
     </script>
 </body>
 </html>
