@@ -61,7 +61,14 @@
             <div class="lessons-grid">
                 <div v-for="lesson in sortedLessons" :key="lesson.id" class="lesson-card">
                     <div class="lesson-icon">
-                        <i :class="lesson.icon"></i>
+                        <img
+                            v-if="!lesson.imageMissing"
+                            :src="getImagePath(lesson.subject)"
+                            :alt="lesson.subject + ' icon'"
+                            @error="onImgError($event, lesson)"
+                            class="lesson-img"
+                        >
+                        <i v-else :class="lesson.icon"></i>
                     </div>
                     <h3>{{ lesson.subject }}</h3>
                     <div class="lesson-info">
@@ -337,6 +344,25 @@
                     orderSubmitted: false
                 };
             },
+            mounted() {
+                // Preload subject images and mark which lessons have images available.
+                this.lessons.forEach(lesson => {
+                    // Optimistically set missing until confirmed
+                    this.$set(lesson, 'imageMissing', true);
+
+                    // Preload the image to check availability
+                    const img = new Image();
+                    img.onload = () => {
+                        // Image exists and loaded
+                        this.$set(lesson, 'imageMissing', false);
+                    };
+                    img.onerror = () => {
+                        // Image not found or failed to load
+                        this.$set(lesson, 'imageMissing', true);
+                    };
+                    img.src = this.getImagePath(lesson.subject);
+                });
+            },
             computed: {
                 sortedLessons() {
                     let lessons = this.searchQuery ? this.filteredLessons : this.lessons;
@@ -502,8 +528,28 @@
                                String(lesson.spaces).includes(query);
                     });
                 }
+                ,
+                // Returns a normalized image path for a given subject.
+                // Example: "Computer Science" -> "images/computer-science.png"
+                getImagePath(subject) {
+                    const fileName = String(subject)
+                        .toLowerCase()
+                        .replace(/[^a-z0-9]+/g, '-')
+                        .replace(/(^-|-$)/g, '');
+
+                    return `images/${fileName}.png`;
+                },
+                // When an image fails to load, mark the lesson so the template
+                // will render the original Font Awesome icon as a fallback.
+                onImgError(event, lesson) {
+                    // Create a reactive property imageMissing for the lesson
+                    // so v-if will switch to the fallback icon.
+                    this.$set(lesson, 'imageMissing', true);
+                    try { event.target.style.display = 'none'; } catch (e) {}
+                }
             }
         }).$mount('#app');
+        
     </script>
 </body>
 </html>

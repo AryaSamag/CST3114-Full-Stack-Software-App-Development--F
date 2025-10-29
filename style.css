@@ -283,6 +283,28 @@ select.form-control:focus {
     font-size: 3em;
     color: #667eea;
     margin-bottom: 15px;
+    /* Ensure the icon area reserves space for images */
+    width: 72px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Image shown for lessons (subject images). This respects the
+   existing card layout and sizes the image consistently. */
+.lesson-img {
+    width: 64px;
+    height: 64px;
+    object-fit: cover; /* preserve aspect, crop if needed */
+    border-radius: 8px;
+    display: block;
+}
+
+.lesson-icon i {
+    /* If the fallback icon is shown, center and size it within the
+       reserved icon box. */
+    font-size: 1.75rem;
 }
 
 .lesson-card h3 {
