@@ -71,8 +71,12 @@
                         <i v-else :class="lesson.icon"></i>
                     </div>
                     <h3>{{ lesson.subject }}</h3>
+                    <div class="rating" aria-label="Rating">
+                        <i v-for="n in 5" :key="n" :class="n <= lesson.rating ? 'fas fa-star' : 'far fa-star'" aria-hidden="true"></i>
+                        <span class="rating-value">{{ lesson.rating.toFixed(1) }}</span>
+                    </div>
                     <div class="lesson-info">
-                        <i class="fas fa-map-marker-alt"></i> Location: <strong>{{ lesson.location }}</strong>
+                        <i class="fas fa-map-marker-alt"></i> Location: <strong class="lesson-location">{{ lesson.location }}</strong>
                     </div>
                     <div class="price">
                         <i class="fas fa-tag"></i> Price: AED {{ lesson.price }}
@@ -244,7 +248,8 @@
                             location: 'Dubai',
                             price: 100,
                             spaces: 5,
-                            icon: 'fas fa-calculator'
+                            icon: 'fas fa-calculator',
+                            rating: 4.5
                         },
                         {
                             id: 2,
@@ -252,7 +257,8 @@
                             location: 'Abu Dhabi',
                             price: 80,
                             spaces: 5,
-                            icon: 'fas fa-book'
+                            icon: 'fas fa-book',
+                            rating: 4.2
                         },
                         {
                             id: 3,
@@ -260,7 +266,8 @@
                             location: 'Sharjah',
                             price: 90,
                             spaces: 5,
-                            icon: 'fas fa-flask'
+                            icon: 'fas fa-flask',
+                            rating: 4.0
                         },
                         {
                             id: 4,
@@ -268,7 +275,8 @@
                             location: 'Al Ain',
                             price: 95,
                             spaces: 5,
-                            icon: 'fas fa-landmark'
+                            icon: 'fas fa-landmark',
+                            rating: 3.8
                         },
                         {
                             id: 5,
@@ -276,7 +284,8 @@
                             location: 'Dubai',
                             price: 85,
                             spaces: 5,
-                            icon: 'fas fa-globe'
+                            icon: 'fas fa-globe',
+                            rating: 4.1
                         },
                         {
                             id: 6,
@@ -284,7 +293,8 @@
                             location: 'Abu Dhabi',
                             price: 110,
                             spaces: 5,
-                            icon: 'fas fa-atom'
+                            icon: 'fas fa-atom',
+                            rating: 4.3
                         },
                         {
                             id: 7,
@@ -292,7 +302,8 @@
                             location: 'Sharjah',
                             price: 105,
                             spaces: 5,
-                            icon: 'fas fa-vial'
+                            icon: 'fas fa-vial',
+                            rating: 4.4
                         },
                         {
                             id: 8,
@@ -300,7 +311,8 @@
                             location: 'Al Ain',
                             price: 95,
                             spaces: 5,
-                            icon: 'fas fa-dna'
+                            icon: 'fas fa-dna',
+                            rating: 4.0
                         },
                         {
                             id: 9,
@@ -308,7 +320,8 @@
                             location: 'Dubai',
                             price: 120,
                             spaces: 5,
-                            icon: 'fas fa-laptop-code'
+                            icon: 'fas fa-laptop-code',
+                            rating: 4.7
                         },
                         {
                             id: 10,
@@ -316,7 +329,8 @@
                             location: 'Abu Dhabi',
                             price: 75,
                             spaces: 5,
-                            icon: 'fas fa-palette'
+                            icon: 'fas fa-palette',
+                            rating: 3.9
                         }
                     ],
                     cart: [],

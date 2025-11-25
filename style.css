@@ -302,8 +302,6 @@ select.form-control:focus {
 }
 
 .lesson-icon i {
-    /* If the fallback icon is shown, center and size it within the
-       reserved icon box. */
     font-size: 1.75rem;
 }
 
@@ -316,6 +314,30 @@ select.form-control:focus {
 .lesson-info {
     color: #666;
     margin-bottom: 10px;
+}
+
+/* Make the location text match the price size and emphasis */
+.lesson-location {
+    font-size: 1.4em; /* same as .price */
+    color: #764ba2;   /* same color as price */
+    font-weight: bold;
+}
+
+/* Star rating styles for subject */
+.rating {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.rating i {
+    color: #f5b301; /* gold */
+    font-size: 1rem;
+}
+.rating .rating-value {
+    font-size: 0.95rem;
+    color: #666;
+    margin-left: 6px;
 }
 
 .lesson-info i {
