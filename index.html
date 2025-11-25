@@ -109,9 +109,23 @@
                 <!-- Cart Items -->
                 <div v-for="item in cart" :key="item.id" class="cart-item">
                     <div class="cart-item-info">
-                        <h3>{{ item.subject }}</h3>
-                        <div class="cart-item-details">
-                            {{ item.location }} • AED {{ item.price }} per lesson
+                        <div class="cart-item-left">
+                            <div class="cart-item-image">
+                                <img
+                                    v-if="!item.imageMissing"
+                                    :src="getImagePath(item.subject)"
+                                    :alt="item.subject + ' icon'"
+                                    @error="onCartImgError($event, item)"
+                                    class="cart-item-img"
+                                >
+                                <i v-else :class="item.icon"></i>
+                            </div>
+                            <div class="cart-item-text">
+                                <h3>{{ item.subject }}</h3>
+                                <div class="cart-item-details">
+                                    {{ item.location }} • AED {{ item.price }} per lesson
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="cart-item-right">
@@ -439,7 +453,10 @@
                                 subject: lesson.subject,
                                 location: lesson.location,
                                 price: lesson.price,
-                                quantity: 1
+                                quantity: 1,
+                                icon: lesson.icon,
+                                // copy the preloaded flag from the lesson (if available)
+                                imageMissing: !!lesson.imageMissing
                             });
                         }
 
@@ -551,6 +568,11 @@
                         .replace(/[^a-z0-9]+/g, '-')
                         .replace(/(^-|-$)/g, '');
 
+                    // Use SVG for Mathematics (if present), otherwise default to PNG
+                    if (fileName === 'mathematics') {
+                        return `images/${fileName}.svg`;
+                    }
+
                     return `images/${fileName}.png`;
                 },
                 // When an image fails to load, mark the lesson so the template
@@ -559,6 +581,12 @@
                     // Create a reactive property imageMissing for the lesson
                     // so v-if will switch to the fallback icon.
                     this.$set(lesson, 'imageMissing', true);
+                    try { event.target.style.display = 'none'; } catch (e) {}
+                }
+                ,
+                // Cart image error handler - mark the cart item to use icon fallback
+                onCartImgError(event, item) {
+                    this.$set(item, 'imageMissing', true);
                     try { event.target.style.display = 'none'; } catch (e) {}
                 }
             }
