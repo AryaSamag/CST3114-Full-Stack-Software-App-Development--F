@@ -492,19 +492,14 @@
                 }
                 ,
                 // Returns a normalized image path for a given subject.
-                // Example: "Computer Science" -> "images/computer-science.png"
+                // Example: "Computer Science" -> "http://localhost:3000/images/computer-science.png"
                 getImagePath(subject) {
                     const fileName = String(subject)
                         .toLowerCase()
                         .replace(/[^a-z0-9]+/g, '-')
                         .replace(/(^-|-$)/g, '');
 
-                    // Use SVG for Mathematics (if present), otherwise default to PNG
-                    if (fileName === 'mathematics') {
-                        return `images/${fileName}.svg`;
-                    }
-
-                    return `images/${fileName}.png`;
+                    return `http://localhost:3000/images/${fileName}.png`;
                 },
                 // When an image fails to load, mark the lesson so the template
                 // will render the original Font Awesome icon as a fallback.
