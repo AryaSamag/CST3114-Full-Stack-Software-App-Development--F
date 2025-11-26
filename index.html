@@ -204,14 +204,6 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Delivery Method</label>
-                        <select v-model="checkoutForm.method" class="form-control">
-                            <option value="home">Home Delivery</option>
-                            <option value="office">Office Delivery</option>
-                            <option value="pickup">Pickup</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
                         <label class="checkbox-label">
                             <input 
                                 type="checkbox" 
@@ -269,7 +261,6 @@
                         city: '',
                         state: '',
                         zip: '',
-                        method: 'home',
                         sendGift: false,
                         giftPhone: '',
                         phone: '',
@@ -439,7 +430,6 @@
                             state: this.checkoutForm.state,
                             zip: this.checkoutForm.zip,
                             phone: this.checkoutForm.phone,
-                            method: this.checkoutForm.method,
                             sendGift: this.checkoutForm.sendGift,
                             giftPhone: this.checkoutForm.giftPhone,
                             cart: this.cart
@@ -460,7 +450,6 @@
                                 city: '',
                                 state: '',
                                 zip: '',
-                                method: 'home',
                                 sendGift: false,
                                 giftPhone: '',
                                 phone: '',
