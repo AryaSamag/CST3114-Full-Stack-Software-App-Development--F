@@ -274,7 +274,7 @@
             },
             mounted() {
                 // Fetch lessons from backend
-                fetch('http://localhost:3000/lessons')
+                fetch('https://cst3114-full-stack-software-app.onrender.com/lessons')
                     .then(response => response.json())
                     .then(data => {
                         this.lessons = data.map(lesson => ({
@@ -419,7 +419,7 @@
                     if (!this.isFormValid) return;
 
                     // Send order to backend
-                    fetch('http://localhost:3000/orders', {
+                    fetch('https://cst3114-full-stack-software-app.onrender.com/orders', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -481,14 +481,14 @@
                 }
                 ,
                 // Returns a normalized image path for a given subject.
-                // Example: "Computer Science" -> "http://localhost:3000/images/computer-science.png"
+                // Example: "Computer Science" -> "https://cst3114-full-stack-software-app.onrender.com/images/computer-science.png"
                 getImagePath(subject) {
                     const fileName = String(subject)
                         .toLowerCase()
                         .replace(/[^a-z0-9]+/g, '-')
                         .replace(/(^-|-$)/g, '');
 
-                    return `http://localhost:3000/images/${fileName}.png`;
+                    return `https://cst3114-full-stack-software-app.onrender.com/images/${fileName}.png`;
                 },
                 // When an image fails to load, mark the lesson so the template
                 // will render the original Font Awesome icon as a fallback.
