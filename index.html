@@ -255,98 +255,7 @@
         new Vue({
             data() {
                 return {
-                    lessons: [
-                        {
-                            id: 1,
-                            subject: 'Mathematics',
-                            location: 'Dubai',
-                            price: 100,
-                            spaces: 5,
-                            icon: 'fas fa-calculator',
-                            rating: 4.5
-                        },
-                        {
-                            id: 2,
-                            subject: 'English',
-                            location: 'Abu Dhabi',
-                            price: 80,
-                            spaces: 5,
-                            icon: 'fas fa-book',
-                            rating: 4.2
-                        },
-                        {
-                            id: 3,
-                            subject: 'Science',
-                            location: 'Sharjah',
-                            price: 90,
-                            spaces: 5,
-                            icon: 'fas fa-flask',
-                            rating: 4.0
-                        },
-                        {
-                            id: 4,
-                            subject: 'History',
-                            location: 'Al Ain',
-                            price: 95,
-                            spaces: 5,
-                            icon: 'fas fa-landmark',
-                            rating: 3.8
-                        },
-                        {
-                            id: 5,
-                            subject: 'Geography',
-                            location: 'Dubai',
-                            price: 85,
-                            spaces: 5,
-                            icon: 'fas fa-globe',
-                            rating: 4.1
-                        },
-                        {
-                            id: 6,
-                            subject: 'Physics',
-                            location: 'Abu Dhabi',
-                            price: 110,
-                            spaces: 5,
-                            icon: 'fas fa-atom',
-                            rating: 4.3
-                        },
-                        {
-                            id: 7,
-                            subject: 'Chemistry',
-                            location: 'Sharjah',
-                            price: 105,
-                            spaces: 5,
-                            icon: 'fas fa-vial',
-                            rating: 4.4
-                        },
-                        {
-                            id: 8,
-                            subject: 'Biology',
-                            location: 'Al Ain',
-                            price: 95,
-                            spaces: 5,
-                            icon: 'fas fa-dna',
-                            rating: 4.0
-                        },
-                        {
-                            id: 9,
-                            subject: 'Computer Science',
-                            location: 'Dubai',
-                            price: 120,
-                            spaces: 5,
-                            icon: 'fas fa-laptop-code',
-                            rating: 4.7
-                        },
-                        {
-                            id: 10,
-                            subject: 'Art',
-                            location: 'Abu Dhabi',
-                            price: 75,
-                            spaces: 5,
-                            icon: 'fas fa-palette',
-                            rating: 3.9
-                        }
-                    ],
+                    lessons: [], // Empty - will fetch from backend
                     cart: [],
                     showCart: false,
                     sortBy: 'subject',
@@ -373,23 +282,23 @@
                 };
             },
             mounted() {
-                // Preload subject images and mark which lessons have images available.
-                this.lessons.forEach(lesson => {
-                    // Optimistically set missing until confirmed
-                    this.$set(lesson, 'imageMissing', true);
-
-                    // Preload the image to check availability
-                    const img = new Image();
-                    img.onload = () => {
-                        // Image exists and loaded
-                        this.$set(lesson, 'imageMissing', false);
-                    };
-                    img.onerror = () => {
-                        // Image not found or failed to load
-                        this.$set(lesson, 'imageMissing', true);
-                    };
-                    img.src = this.getImagePath(lesson.subject);
-                });
+                // Fetch lessons from backend
+                fetch('http://localhost:3000/lessons')
+                    .then(response => response.json())
+                    .then(data => {
+                        this.lessons = data.map(lesson => ({
+                            ...lesson,
+                            id: lesson._id, // MongoDB uses _id
+                            imageMissing: true
+                        }));
+                        // Preload images
+                        this.lessons.forEach(lesson => {
+                            const img = new Image();
+                            img.onload = () => this.$set(lesson, 'imageMissing', false);
+                            img.src = this.getImagePath(lesson.subject);
+                        });
+                    })
+                    .catch(err => console.error('Error fetching lessons:', err));
             },
             computed: {
                 sortedLessons() {
@@ -518,31 +427,53 @@
                   submitOrder() {
                     if (!this.isFormValid) return;
 
-                    // Show success message
-                    this.orderSubmitted = true;
-
-                    // Clear cart and form after 3 seconds
-                    setTimeout(() => {
-                        this.cart = [];
-                        this.checkoutForm = {
-                            firstName: '',
-                            lastName: '',
-                            address: '',
-                            city: '',
-                            state: '',
-                            zip: '',
-                            method: 'home',
-                            sendGift: false,
-                            giftPhone: '',
-                            phone: '',
-                            firstNameError: '',
-                            lastNameError: '',
-                            phoneError: '',
-                            giftPhoneError: ''
-                        };
-                        this.orderSubmitted = false;
-                        this.showCart = false;
-                    }, 3000);
+                    // Send order to backend
+                    fetch('http://localhost:3000/orders', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            firstName: this.checkoutForm.firstName,
+                            lastName: this.checkoutForm.lastName,
+                            address: this.checkoutForm.address,
+                            city: this.checkoutForm.city,
+                            state: this.checkoutForm.state,
+                            zip: this.checkoutForm.zip,
+                            phone: this.checkoutForm.phone,
+                            method: this.checkoutForm.method,
+                            sendGift: this.checkoutForm.sendGift,
+                            giftPhone: this.checkoutForm.giftPhone,
+                            cart: this.cart
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Order created:', data);
+                        this.orderSubmitted = true;
+                        
+                        // Clear cart and form after 3 seconds
+                        setTimeout(() => {
+                            this.cart = [];
+                            this.checkoutForm = {
+                                firstName: '',
+                                lastName: '',
+                                address: '',
+                                city: '',
+                                state: '',
+                                zip: '',
+                                method: 'home',
+                                sendGift: false,
+                                giftPhone: '',
+                                phone: '',
+                                firstNameError: '',
+                                lastNameError: '',
+                                phoneError: '',
+                                giftPhoneError: ''
+                            };
+                            this.orderSubmitted = false;
+                            this.showCart = false;
+                        }, 3000);
+                    })
+                    .catch(err => console.error('Error creating order:', err));
                 },
                 performSearch() {
                     if (!this.searchQuery.trim()) {
