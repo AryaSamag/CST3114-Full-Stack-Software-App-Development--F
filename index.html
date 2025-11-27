@@ -470,14 +470,23 @@
                         return;
                     } 
 
-                     // Frontend search
-                    const query = this.searchQuery.toLowerCase();
-                    this.filteredLessons = this.lessons.filter(lesson => {
-                        return lesson.subject.toLowerCase().includes(query) ||
-                               lesson.location.toLowerCase().includes(query) ||
-                               String(lesson.price).includes(query) ||
-                               String(lesson.spaces).includes(query);
-                    });
+                    // Backend search
+                    fetch(`https://cst3114-full-stack-software-app.onrender.com/lessons/search?q=${encodeURIComponent(this.searchQuery)}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            this.filteredLessons = data.map(lesson => ({
+                                ...lesson,
+                                id: lesson._id,
+                                imageMissing: true
+                            }));
+                            // Preload images for search results
+                            this.filteredLessons.forEach(lesson => {
+                                const img = new Image();
+                                img.onload = () => this.$set(lesson, 'imageMissing', false);
+                                img.src = this.getImagePath(lesson.subject);
+                            });
+                        })
+                        .catch(err => console.error('Error searching lessons:', err));
                 }
                 ,
                 // Returns a normalized image path for a given subject.
