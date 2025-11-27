@@ -471,7 +471,7 @@
                     } 
 
                     // Backend search
-                    fetch(`https://cst3114-full-stack-software-app.onrender.com/lessons/search?q=${encodeURIComponent(this.searchQuery)}`)
+                    fetch(`https://cst3114-full-stack-software-app.onrender.com/search?query=${encodeURIComponent(this.searchQuery)}`)
                         .then(response => response.json())
                         .then(data => {
                             this.filteredLessons = data.map(lesson => ({
@@ -486,7 +486,10 @@
                                 img.src = this.getImagePath(lesson.subject);
                             });
                         })
-                        .catch(err => console.error('Error searching lessons:', err));
+                        .catch(err => {
+                            console.error('Error searching lessons:', err);
+                            this.filteredLessons = [];
+                        });
                 }
                 ,
                 // Returns a normalized image path for a given subject.
